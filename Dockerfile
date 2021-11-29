@@ -29,10 +29,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     mysql-server \
     curl \
     gnupg \
-    nodejs \
     --no-install-recommends
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN wget -qO- https://deb.nodesource.com/setup_14.x | sudo -E bash - && sudo apt install -y nodejs && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN add-apt-repository ppa:ondrej/php
 
@@ -42,8 +41,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     yarn \
-    php8.0-mysql php8.0-zip php8.0-xml php8.0-mbstring php8.0-curl php8.0-pdo php8.0-tokenizer php8.0-cli php8.0-imap php8.0-intl php8.0-gd php8.0-xdebug php8.0-soap php8.0-apcu \
-    apache2 libapache2-mod-php8.0 \
+    php8.1-mysql php8.1-zip php8.1-xml php8.1-mbstring php8.1-curl php8.1-pdo php8.1-tokenizer php8.1-cli php8.1-imap php8.1-intl php8.1-gd php8.1-xdebug php8.1-soap php8.1-apcu \
+    apache2 libapache2-mod-php8.1 \
     --no-install-recommends && \
     apt-get clean -y && \
     apt-get autoremove -y && \
@@ -59,7 +58,7 @@ ENV LC_ALL     en_US.UTF-8
 RUN locale-gen en_US.UTF-8
 
 # Timezone & memory limit
-RUN echo "date.timezone=Europe/Paris" > /etc/php/8.0/cli/conf.d/date_timezone.ini && echo "memory_limit=1G" >> /etc/php/8.0/apache2/php.ini
+RUN echo "date.timezone=Europe/Paris" > /etc/php/8.1/cli/conf.d/date_timezone.ini && echo "memory_limit=1G" >> /etc/php/8.1/apache2/php.ini
 
 # Goto temporary directory.
 WORKDIR /tmp
